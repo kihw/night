@@ -2,10 +2,17 @@ import React from 'react';
 import { Moon, Shield, Settings, Zap, Download, Monitor, Volume2, Clock, CheckCircle, Github } from 'lucide-react';
 
 function App() {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       {/* Header */}
-      <header className="relative z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-2">
@@ -15,66 +22,75 @@ function App() {
               <span className="text-xl font-bold">NightMod</span>
             </div>
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-slate-300 hover:text-white transition-colors">Fonctionnalités</a>
-              <a href="#screenshots" className="text-slate-300 hover:text-white transition-colors">Aperçu</a>
-              <a href="#download" className="text-slate-300 hover:text-white transition-colors">Télécharger</a>
+              <button 
+                onClick={() => scrollToSection('features')}
+                className="text-slate-300 hover:text-white transition-colors"
+              >
+                Fonctionnalités
+              </button>
+              <button 
+                onClick={() => scrollToSection('screenshots')}
+                className="text-slate-300 hover:text-white transition-colors"
+              >
+                Aperçu
+              </button>
+              <button 
+                onClick={() => scrollToSection('download')}
+                className="text-slate-300 hover:text-white transition-colors"
+              >
+                Télécharger
+              </button>
             </nav>
-            <button className="md:hidden text-slate-300 hover:text-white">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-purple-500/10"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="flex justify-center mb-8">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl animate-pulse">
-                <Moon className="w-10 h-10 text-white" />
+      <section className="pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-8">
+            <Moon className="w-10 h-10 text-white" />
+          </div>
+          
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            NightMod
+          </h1>
+          
+          <p className="text-xl text-slate-300 mb-8 max-w-3xl mx-auto">
+            Application de bureau intelligente qui surveille votre activité et protège automatiquement 
+            votre ordinateur lorsque vous vous endormez
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <button 
+              onClick={() => scrollToSection('download')}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full font-semibold transition-all duration-300"
+            >
+              <div className="flex items-center justify-center space-x-2">
+                <Download className="w-5 h-5" />
+                <span>Télécharger Gratuitement</span>
               </div>
+            </button>
+            <button 
+              onClick={() => scrollToSection('features')}
+              className="border-2 border-slate-600 hover:border-slate-500 px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-slate-800"
+            >
+              Voir les fonctionnalités
+            </button>
+          </div>
+          
+          <div className="flex justify-center items-center space-x-6 text-sm text-slate-400">
+            <div className="flex items-center space-x-2">
+              <CheckCircle className="w-4 h-4 text-green-400" />
+              <span>Gratuit & Open Source</span>
             </div>
-            
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              NightMod
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-slate-300 mb-8 leading-relaxed">
-              Application de bureau intelligente qui surveille votre activité et protège automatiquement 
-              votre ordinateur lorsque vous vous endormez
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                <div className="flex items-center space-x-2">
-                  <Download className="w-5 h-5" />
-                  <span>Télécharger Gratuitement</span>
-                </div>
-              </button>
-              <button className="border-2 border-slate-600 hover:border-slate-500 px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-slate-800">
-                Voir les fonctionnalités
-              </button>
+            <div className="flex items-center space-x-2">
+              <Shield className="w-4 h-4 text-blue-400" />
+              <span>Sécurisé</span>
             </div>
-            
-            <div className="flex justify-center items-center space-x-6 text-sm text-slate-400">
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-400" />
-                <span>Gratuit & Open Source</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-blue-400" />
-                <span>Sécurisé</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Monitor className="w-4 h-4 text-purple-400" />
-                <span>Multi-plateforme</span>
-              </div>
+            <div className="flex items-center space-x-2">
+              <Monitor className="w-4 h-4 text-purple-400" />
+              <span>Multi-plateforme</span>
             </div>
           </div>
         </div>
@@ -91,8 +107,7 @@ function App() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Surveillance Intelligente */}
-            <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300 hover:transform hover:scale-105">
+            <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
               <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6">
                 <Zap className="w-6 h-6 text-blue-400" />
               </div>
@@ -105,8 +120,7 @@ function App() {
               </ul>
             </div>
 
-            {/* Interface Utilisateur */}
-            <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300 hover:transform hover:scale-105">
+            <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
               <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-6">
                 <Monitor className="w-6 h-6 text-purple-400" />
               </div>
@@ -119,8 +133,7 @@ function App() {
               </ul>
             </div>
 
-            {/* Configuration Flexible */}
-            <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300 hover:transform hover:scale-105">
+            <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
               <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-6">
                 <Settings className="w-6 h-6 text-green-400" />
               </div>
@@ -133,8 +146,7 @@ function App() {
               </ul>
             </div>
 
-            {/* Économie d'Énergie */}
-            <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300 hover:transform hover:scale-105">
+            <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
               <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-6">
                 <Zap className="w-6 h-6 text-yellow-400" />
               </div>
@@ -147,8 +159,7 @@ function App() {
               </ul>
             </div>
 
-            {/* Sécurité */}
-            <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300 hover:transform hover:scale-105">
+            <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
               <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center mb-6">
                 <Shield className="w-6 h-6 text-red-400" />
               </div>
@@ -161,8 +172,7 @@ function App() {
               </ul>
             </div>
 
-            {/* Audio & Notifications */}
-            <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300 hover:transform hover:scale-105">
+            <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300">
               <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center mb-6">
                 <Volume2 className="w-6 h-6 text-indigo-400" />
               </div>
@@ -187,8 +197,7 @@ function App() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Interface Principale */}
-            <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700">
+            <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700">
               <h3 className="text-xl font-semibold mb-6 text-center">Interface Principale</h3>
               <div className="bg-slate-900 p-6 rounded-xl border-2 border-slate-700 font-mono text-sm">
                 <div className="flex items-center justify-between mb-4">
@@ -223,8 +232,7 @@ function App() {
               </div>
             </div>
 
-            {/* Fenêtre de Vérification */}
-            <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700">
+            <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700">
               <h3 className="text-xl font-semibold mb-6 text-center">Fenêtre de Vérification</h3>
               <div className="bg-slate-900 p-6 rounded-xl border-2 border-slate-700 text-center">
                 <h4 className="text-lg font-semibold mb-6">Êtes-vous éveillé ?</h4>
@@ -274,10 +282,10 @@ function App() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Prêt à Protéger Votre Travail ?</h2>
           <p className="text-xl text-slate-300 mb-12">
-            Téléchargez NightMod gratuitement et commencez à économiser l'énergie dès tonight
+            Téléchargez NightMod gratuitement et commencez à économiser l'énergie dès ce soir
           </p>
 
-          <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 mb-8">
+          <div className="bg-slate-800/80 p-8 rounded-2xl border border-slate-700 mb-8">
             <div className="grid md:grid-cols-3 gap-6 mb-8">
               <div className="text-center">
                 <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -303,7 +311,7 @@ function App() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+              <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full font-semibold transition-all duration-300">
                 <div className="flex items-center justify-center space-x-2">
                   <Download className="w-5 h-5" />
                   <span>Télécharger pour Linux</span>
