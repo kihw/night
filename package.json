@@ -10,7 +10,8 @@
     "build": "electron-builder",
     "build-linux": "electron-builder --linux",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --publish=never"
+    "dist": "electron-builder --publish=never",
+    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
     "appId": "com.nightmod.app",
@@ -21,7 +22,8 @@
     "files": [
       "src/**/*",
       "assets/**/*",
-      "node_modules/**/*"
+      "!node_modules/**/*",
+      "node_modules/electron/**/*"
     ],
     "linux": {
       "target": [
@@ -39,7 +41,16 @@
         }
       ],
       "category": "Utility",
-      "icon": "assets/icon.png"
+      "icon": "assets/icon.png",
+      "desktop": {
+        "Name": "NightMod",
+        "Comment": "Protection nocturne intelligente",
+        "Categories": "Utility;System;"
+      }
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   },
   "dependencies": {
