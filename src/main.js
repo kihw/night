@@ -3,6 +3,7 @@ import { exec } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import notifier from 'node-notifier';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,7 +39,6 @@ function createMainWindow() {
     show: false
   });
 
-  // Corriger le chemin vers index.html
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   mainWindow.once('ready-to-show', () => {
@@ -75,7 +75,6 @@ function createCheckWindow() {
     title: 'NightMod - Vérification'
   });
 
-  // Corriger le chemin vers check.html
   checkWindow.loadFile(path.join(__dirname, 'check.html'));
 
   checkWindow.on('closed', () => {
@@ -88,7 +87,6 @@ function createTray() {
     const iconPath = path.join(__dirname, '../assets/tray-icon.png');
     
     // Vérifier si le fichier existe avant de créer le tray
-    const fs = require('fs');
     if (!fs.existsSync(iconPath)) {
       console.log('Icône tray non trouvée, création d\'une icône par défaut...');
       // Utiliser une icône par défaut ou créer le tray sans icône
