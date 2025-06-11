@@ -38,7 +38,8 @@ function createMainWindow() {
     show: false
   });
 
-  mainWindow.loadFile('src/index.html');
+  // Corriger le chemin vers index.html
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   mainWindow.once('ready-to-show', () => {
     if (!config.minimizeToTray) {
@@ -74,7 +75,8 @@ function createCheckWindow() {
     title: 'NightMod - Vérification'
   });
 
-  checkWindow.loadFile('src/check.html');
+  // Corriger le chemin vers check.html
+  checkWindow.loadFile(path.join(__dirname, 'check.html'));
 
   checkWindow.on('closed', () => {
     checkWindow = null;
@@ -82,53 +84,67 @@ function createCheckWindow() {
 }
 
 function createTray() {
-  const iconPath = path.join(__dirname, '../assets/tray-icon.png');
-  tray = new Tray(iconPath);
+  try {
+    const iconPath = path.join(__dirname, '../assets/tray-icon.png');
+    
+    // Vérifier si le fichier existe avant de créer le tray
+    const fs = require('fs');
+    if (!fs.existsSync(iconPath)) {
+      console.log('Icône tray non trouvée, création d\'une icône par défaut...');
+      // Utiliser une icône par défaut ou créer le tray sans icône
+      tray = new Tray(path.join(__dirname, '../assets/icon.png'));
+    } else {
+      tray = new Tray(iconPath);
+    }
 
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'NightMod',
-      type: 'normal',
-      enabled: false
-    },
-    { type: 'separator' },
-    {
-      label: isMonitoring ? 'Arrêter surveillance' : 'Démarrer surveillance',
-      click: () => {
-        if (isMonitoring) {
-          stopMonitoring();
-        } else {
-          startMonitoring();
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'NightMod',
+        type: 'normal',
+        enabled: false
+      },
+      { type: 'separator' },
+      {
+        label: isMonitoring ? 'Arrêter surveillance' : 'Démarrer surveillance',
+        click: () => {
+          if (isMonitoring) {
+            stopMonitoring();
+          } else {
+            startMonitoring();
+          }
+        }
+      },
+      {
+        label: 'Ouvrir interface',
+        click: () => {
+          if (mainWindow) {
+            mainWindow.show();
+            mainWindow.focus();
+          }
+        }
+      },
+      { type: 'separator' },
+      {
+        label: 'Quitter',
+        click: () => {
+          app.quit();
         }
       }
-    },
-    {
-      label: 'Ouvrir interface',
-      click: () => {
-        if (mainWindow) {
-          mainWindow.show();
-          mainWindow.focus();
-        }
-      }
-    },
-    { type: 'separator' },
-    {
-      label: 'Quitter',
-      click: () => {
-        app.quit();
-      }
-    }
-  ]);
+    ]);
 
-  tray.setContextMenu(contextMenu);
-  tray.setToolTip('NightMod - Protection nocturne');
+    tray.setContextMenu(contextMenu);
+    tray.setToolTip('NightMod - Protection nocturne');
 
-  tray.on('double-click', () => {
-    if (mainWindow) {
-      mainWindow.show();
-      mainWindow.focus();
-    }
-  });
+    tray.on('double-click', () => {
+      if (mainWindow) {
+        mainWindow.show();
+        mainWindow.focus();
+      }
+    });
+  } catch (error) {
+    console.error('Erreur lors de la création du tray:', error);
+    // Continuer sans tray si erreur
+  }
 }
 
 function startMonitoring() {
@@ -144,11 +160,15 @@ function startMonitoring() {
   scheduleNextCheck();
   
   if (config.soundEnabled) {
-    notifier.notify({
-      title: 'NightMod',
-      message: 'Surveillance démarrée',
-      sound: true
-    });
+    try {
+      notifier.notify({
+        title: 'NightMod',
+        message: 'Surveillance démarrée',
+        sound: true
+      });
+    } catch (error) {
+      console.log('Notification non disponible:', error.message);
+    }
   }
 }
 
@@ -178,11 +198,15 @@ function stopMonitoring() {
   }
 
   if (config.soundEnabled) {
-    notifier.notify({
-      title: 'NightMod',
-      message: 'Surveillance arrêtée',
-      sound: true
-    });
+    try {
+      notifier.notify({
+        title: 'NightMod',
+        message: 'Surveillance arrêtée',
+        sound: true
+      });
+    } catch (error) {
+      console.log('Notification non disponible:', error.message);
+    }
   }
 }
 
@@ -215,15 +239,21 @@ function performCheck() {
   }, responseTimeMs);
 
   if (checkWindow) {
-    checkWindow.webContents.send('start-countdown', config.responseTime, config.action);
+    checkWindow.webContents.once('did-finish-load', () => {
+      checkWindow.webContents.send('start-countdown', config.responseTime, config.action);
+    });
   }
 
   if (config.soundEnabled) {
-    notifier.notify({
-      title: 'NightMod',
-      message: 'Êtes-vous éveillé ?',
-      sound: true
-    });
+    try {
+      notifier.notify({
+        title: 'NightMod',
+        message: 'Êtes-vous éveillé ?',
+        sound: true
+      });
+    } catch (error) {
+      console.log('Notification non disponible:', error.message);
+    }
   }
 }
 
@@ -246,7 +276,9 @@ function executeAction() {
     exec(command, (error) => {
       if (error) {
         console.error('Erreur lors de l\'exécution de l\'action:', error);
-        dialog.showErrorBox('Erreur', `Impossible d'exécuter l'action: ${error.message}`);
+        if (mainWindow) {
+          dialog.showErrorBox('Erreur', `Impossible d'exécuter l'action: ${error.message}`);
+        }
       }
     });
   }
@@ -342,6 +374,11 @@ ipcMain.on('get-status', (event) => {
 app.whenReady().then(() => {
   createMainWindow();
   createTray();
+
+  // Afficher la fenêtre principale au démarrage pour les tests
+  if (mainWindow) {
+    mainWindow.show();
+  }
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
