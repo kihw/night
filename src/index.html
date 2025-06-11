@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NightMod</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🌙</div>
+                <h1>NightMod</h1>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="status-section">
+                <div class="status-indicator" id="statusIndicator">
+                    <div class="status-dot"></div>
+                    <span id="statusText">Inactif</span>
+                </div>
+                
+                <div class="next-check" id="nextCheck" style="display: none;">
+                    <span>Prochaine vérification dans:</span>
+                    <div class="time-display" id="timeDisplay">--</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="toggleBtn" class="btn btn-primary">
+                    Démarrer surveillance
+                </button>
+            </div>
+
+            <div class="settings">
+                <h3>Paramètres</h3>
+                
+                <div class="setting-group">
+                    <label for="interval">Intervalle de vérification:</label>
+                    <select id="interval">
+                        <option value="1">1 minute</option>
+                        <option value="5">5 minutes</option>
+                        <option value="10">10 minutes</option>
+                        <option value="15">15 minutes</option>
+                        <option value="20" selected>20 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="60">1 heure</option>
+                        <option value="120">2 heures</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label for="responseTime">Temps de réponse:</label>
+                    <select id="responseTime">
+                        <option value="10">10 secondes</option>
+                        <option value="15">15 secondes</option>
+                        <option value="30" selected>30 secondes</option>
+                        <option value="45">45 secondes</option>
+                        <option value="60">1 minute</option>
+                        <option value="120">2 minutes</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label for="action">Action à exécuter:</label>
+                    <select id="action">
+                        <option value="shutdown" selected>Éteindre</option>
+                        <option value="suspend">Mettre en veille</option>
+                        <option value="lock">Verrouiller l'écran</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="soundEnabled" checked>
+                        <span class="checkmark"></span>
+                        Notifications sonores
+                    </label>
+                </div>
+
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="autoStart">
+                        <span class="checkmark"></span>
+                        Démarrage automatique
+                    </label>
+                </div>
+
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="minimizeToTray" checked>
+                        <span class="checkmark"></span>
+                        Minimiser dans la barre des tâches
+                    </label>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>NightMod v1.0.0 - Protection nocturne intelligente</p>
+        </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

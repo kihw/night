@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NightMod - Vérification</title>
+    <link rel="stylesheet" href="check-styles.css">
+</head>
+<body>
+    <div class="check-container">
+        <div class="check-content">
+            <h2>Êtes-vous éveillé ?</h2>
+            
+            <div class="countdown-circle">
+                <svg class="progress-ring" width="120" height="120">
+                    <circle class="progress-ring-circle" 
+                            stroke="#374151" 
+                            stroke-width="8" 
+                            fill="transparent" 
+                            r="52" 
+                            cx="60" 
+                            cy="60"/>
+                    <circle class="progress-ring-progress" 
+                            stroke="#f59e0b" 
+                            stroke-width="8" 
+                            fill="transparent" 
+                            r="52" 
+                            cx="60" 
+                            cy="60"/>
+                </svg>
+                <div class="countdown-text">
+                    <span id="countdownNumber">30</span>
+                </div>
+            </div>
+            
+            <p class="countdown-label">secondes</p>
+            
+            <button id="respondBtn" class="respond-btn">
+                Je suis éveillé !
+            </button>
+            
+            <div class="action-info">
+                <span>Action: <span id="actionText">extinction</span></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="check-renderer.js"></script>
+</body>
+</html>
