@@ -1,8 +1,9 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "nightmod-website",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Site web officiel de NightMod - Application de protection nocturne pour ordinateur",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
