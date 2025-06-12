@@ -1,6 +1,7 @@
 {
   "name": "nightmod",
   "version": "1.0.0",
+
   "description": "Application de bureau qui surveille votre activité et éteint automatiquement votre ordinateur",
   "main": "src/main.js",
   "type": "module",
@@ -24,10 +25,21 @@
     },
     "files": [
       "src/**/*",
-      "assets/**/*",
-      "!node_modules/**/*",
-      "node_modules/electron/**/*"
+      "package.json",
+      "node_modules/**/*",
+      "assets/**/*"
     ],
+
+
+    "extraResources": [
+      "LICENSE.*",
+      "locales/**/*",
+      "resources/**/*",
+      "*.pak",
+      "*.bin",
+      "*.json"
+    ],
+
     "linux": {
       "target": [
         {
@@ -44,7 +56,7 @@
         }
       ],
       "category": "Utility",
-      "icon": "assets/icon.png",
+      "icon": "assets/icons",
       "desktop": {
         "Name": "NightMod",
         "Comment": "Protection nocturne intelligente",
@@ -57,7 +69,7 @@
     }
   },
   "dependencies": {
-    "electron": "^28.0.0",
+
     "node-notifier": "^10.0.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -77,9 +89,13 @@
     "vite": "^6.0.1"
   },
   "devDependencies": {
+    "electron": "^28.0.0",
     "electron-builder": "^24.9.1"
   },
   "keywords": ["desktop", "utility", "power-management", "sleep", "shutdown"],
-  "author": "NightMod Team",
+  "author": {
+    "name": "NightMod Team",
+    "email": "support@nightmod.app"
+  },
   "license": "MIT"
 }
