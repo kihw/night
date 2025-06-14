@@ -12,6 +12,10 @@ const nextCheck = document.getElementById('nextCheck');
 const timeDisplay = document.getElementById('timeDisplay');
 const toggleBtn = document.getElementById('toggleBtn');
 
+// Boutons de la barre de titre
+const minimizeBtn = document.getElementById('minimizeBtn');
+const closeBtn = document.getElementById('closeBtn');
+
 // Éléments de configuration
 const intervalSelect = document.getElementById('interval');
 const responseTimeSelect = document.getElementById('responseTime');
@@ -28,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupEventListeners() {
+    // Bouton principal
     toggleBtn.addEventListener('click', () => {
         if (isMonitoring) {
             ipcRenderer.send('stop-monitoring');
@@ -37,9 +42,34 @@ function setupEventListeners() {
         }
     });
 
+    // Boutons de la barre de titre
+    minimizeBtn.addEventListener('click', () => {
+        ipcRenderer.send('minimize-window');
+    });
+
+    closeBtn.addEventListener('click', () => {
+        ipcRenderer.send('close-window');
+    });
+
     // Sauvegarder la config quand elle change
     [intervalSelect, responseTimeSelect, actionSelect, soundEnabledCheck, autoStartCheck, minimizeToTrayCheck].forEach(element => {
         element.addEventListener('change', saveConfig);
+    });
+
+    // Raccourcis clavier
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            ipcRenderer.send('minimize-window');
+        }
+        
+        if (event.ctrlKey && event.key === 'q') {
+            ipcRenderer.send('close-window');
+        }
+
+        if (event.key === ' ' && event.target === document.body) {
+            event.preventDefault();
+            toggleBtn.click();
+        }
     });
 }
 
@@ -140,15 +170,4 @@ ipcRenderer.on('monitoring-stopped', () => {
 
 ipcRenderer.on('next-check-scheduled', (event, minutes) => {
     startCountdown(minutes);
-});
-
-// Gestion des raccourcis clavier
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-        window.close();
-    }
-    
-    if (event.ctrlKey && event.key === 'q') {
-        ipcRenderer.send('quit-app');
-    }
 });

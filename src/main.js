@@ -28,7 +28,7 @@ let config = {
 function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 500,
-    height: 700,
+    height: 650,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
@@ -36,7 +36,9 @@ function createMainWindow() {
     icon: path.join(__dirname, '../assets/icon.png'),
     title: 'NightMod',
     resizable: false,
-    show: false
+    show: false,
+    frame: false, // Désactiver la barre de titre par défaut
+    titleBarStyle: 'hidden'
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
@@ -337,6 +339,16 @@ ipcMain.on('start-monitoring', () => {
 
 ipcMain.on('stop-monitoring', () => {
   stopMonitoring();
+});
+
+ipcMain.on('minimize-window', () => {
+  if (mainWindow) {
+    mainWindow.hide();
+  }
+});
+
+ipcMain.on('close-window', () => {
+  app.quit();
 });
 
 ipcMain.on('user-responded', () => {

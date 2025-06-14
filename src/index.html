@@ -8,6 +8,23 @@
 </head>
 <body>
     <div class="container">
+        <!-- Barre de titre personnalisée -->
+        <div class="title-bar">
+            <div class="title-bar-title">NightMod - Protection nocturne intelligente</div>
+            <div class="title-bar-controls">
+                <button class="title-bar-btn minimize" id="minimizeBtn" title="Minimiser">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                        <rect x="2" y="5" width="8" height="2" rx="1"/>
+                    </svg>
+                </button>
+                <button class="title-bar-btn close" id="closeBtn" title="Fermer">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                        <path d="M2.5 2.5L9.5 9.5M9.5 2.5L2.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
         <header class="header">
             <div class="logo">
                 <div class="logo-icon">🌙</div>
@@ -37,64 +54,66 @@
             <div class="settings">
                 <h3>Paramètres</h3>
                 
-                <div class="setting-group">
-                    <label for="interval">Intervalle de vérification:</label>
-                    <select id="interval">
-                        <option value="1">1 minute</option>
-                        <option value="5">5 minutes</option>
-                        <option value="10">10 minutes</option>
-                        <option value="15">15 minutes</option>
-                        <option value="20" selected>20 minutes</option>
-                        <option value="30">30 minutes</option>
-                        <option value="60">1 heure</option>
-                        <option value="120">2 heures</option>
-                    </select>
-                </div>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label for="interval">Intervalle de vérification:</label>
+                        <select id="interval">
+                            <option value="1">1 minute</option>
+                            <option value="5">5 minutes</option>
+                            <option value="10">10 minutes</option>
+                            <option value="15">15 minutes</option>
+                            <option value="20" selected>20 minutes</option>
+                            <option value="30">30 minutes</option>
+                            <option value="60">1 heure</option>
+                            <option value="120">2 heures</option>
+                        </select>
+                    </div>
 
-                <div class="setting-group">
-                    <label for="responseTime">Temps de réponse:</label>
-                    <select id="responseTime">
-                        <option value="10">10 secondes</option>
-                        <option value="15">15 secondes</option>
-                        <option value="30" selected>30 secondes</option>
-                        <option value="45">45 secondes</option>
-                        <option value="60">1 minute</option>
-                        <option value="120">2 minutes</option>
-                    </select>
-                </div>
+                    <div class="setting-group">
+                        <label for="responseTime">Temps de réponse:</label>
+                        <select id="responseTime">
+                            <option value="10">10 secondes</option>
+                            <option value="15">15 secondes</option>
+                            <option value="30" selected>30 secondes</option>
+                            <option value="45">45 secondes</option>
+                            <option value="60">1 minute</option>
+                            <option value="120">2 minutes</option>
+                        </select>
+                    </div>
 
-                <div class="setting-group">
-                    <label for="action">Action à exécuter:</label>
-                    <select id="action">
-                        <option value="shutdown" selected>Éteindre</option>
-                        <option value="suspend">Mettre en veille</option>
-                        <option value="hibernate">Mettre en hibernation</option>
-                        <option value="lock">Verrouiller l'écran</option>
-                    </select>
-                </div>
+                    <div class="setting-group full-width">
+                        <label for="action">Action à exécuter:</label>
+                        <select id="action">
+                            <option value="shutdown" selected>Éteindre</option>
+                            <option value="suspend">Mettre en veille</option>
+                            <option value="hibernate">Mettre en hibernation</option>
+                            <option value="lock">Verrouiller l'écran</option>
+                        </select>
+                    </div>
 
-                <div class="setting-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="soundEnabled" checked>
-                        <span class="checkmark"></span>
-                        Notifications sonores
-                    </label>
-                </div>
+                    <div class="setting-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="soundEnabled" checked>
+                            <span class="checkmark"></span>
+                            Notifications sonores
+                        </label>
+                    </div>
 
-                <div class="setting-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="autoStart">
-                        <span class="checkmark"></span>
-                        Démarrage automatique avec Windows
-                    </label>
-                </div>
+                    <div class="setting-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoStart">
+                            <span class="checkmark"></span>
+                            Démarrage automatique
+                        </label>
+                    </div>
 
-                <div class="setting-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="minimizeToTray" checked>
-                        <span class="checkmark"></span>
-                        Minimiser dans la barre des tâches
-                    </label>
+                    <div class="setting-group full-width">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="minimizeToTray" checked>
+                            <span class="checkmark"></span>
+                            Minimiser dans la barre des tâches
+                        </label>
+                    </div>
                 </div>
             </div>
         </main>
