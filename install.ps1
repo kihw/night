@@ -89,6 +89,13 @@ function Test-ProgramInstalled {
     }
 }
 
+# Fonction pour actualiser les variables d'environnement
+function Update-EnvironmentPath {
+    $machinePath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+    $userPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+    $env:Path = $machinePath + ";" + $userPath
+}
+
 # Fonction pour installer Node.js via Chocolatey
 function Install-NodeJS {
     Write-Step "Installation de Node.js..."
@@ -97,7 +104,8 @@ function Install-NodeJS {
     if (Test-ProgramInstalled "choco") {
         Write-Info "Installation de Node.js via Chocolatey..."
         try {
-            choco install nodejs -y
+            & choco install nodejs -y
+            Update-EnvironmentPath
             Write-Success "Node.js installé via Chocolatey"
             return $true
         }
@@ -110,7 +118,8 @@ function Install-NodeJS {
     if (Test-ProgramInstalled "scoop") {
         Write-Info "Installation de Node.js via Scoop..."
         try {
-            scoop install nodejs
+            & scoop install nodejs
+            Update-EnvironmentPath
             Write-Success "Node.js installé via Scoop"
             return $true
         }
@@ -137,7 +146,7 @@ function Install-NodeJS {
         Remove-Item $tempFile -Force -ErrorAction SilentlyContinue
         
         # Actualiser les variables d'environnement
-        $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+        Update-EnvironmentPath
         
         Write-Success "Node.js installé manuellement"
         return $true
@@ -179,11 +188,11 @@ function Main {
             Write-Step "Vérification de Node.js..."
             
             if (Test-ProgramInstalled "node") {
-                $nodeVersion = node --version
+                $nodeVersion = & node --version
                 Write-Success "Node.js détecté: $nodeVersion"
                 
                 if (Test-ProgramInstalled "npm") {
-                    $npmVersion = npm --version
+                    $npmVersion = & npm --version
                     Write-Success "npm détecté: v$npmVersion"
                 }
                 else {
@@ -229,10 +238,15 @@ function Main {
         # Chercher Visual Studio Build Tools
         $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
         if (Test-Path $vswhere) {
-            $vsInstances = & $vswhere -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -format json | ConvertFrom-Json
-            if ($vsInstances.Count -gt 0) {
-                $hasBuildTools = $true
-                Write-Success "Visual Studio Build Tools détectés"
+            try {
+                $vsInstances = & $vswhere -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -format json | ConvertFrom-Json
+                if ($vsInstances -and $vsInstances.Count -gt 0) {
+                    $hasBuildTools = $true
+                    Write-Success "Visual Studio Build Tools détectés"
+                }
+            }
+            catch {
+                Write-Warning "Impossible de vérifier Visual Studio Build Tools"
             }
         }
         
@@ -247,7 +261,7 @@ function Main {
         Write-Step "Installation des dépendances npm..."
         
         try {
-            npm install
+            & npm install
             Write-Success "Dépendances installées avec succès"
         }
         catch {
@@ -260,7 +274,7 @@ function Main {
         Write-Step "Build de l'application pour Windows..."
         
         try {
-            npm run build-win
+            & npm run build-win
             Write-Success "Build terminé avec succès"
         }
         catch {
