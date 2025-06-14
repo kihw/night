@@ -1,6 +1,29 @@
 # Guide de Build - NightMod sur Windows
 
-## Prérequis
+## Installation rapide
+
+**Méthode recommandée** : Utilisez le script PowerShell d'installation automatique :
+
+```powershell
+# Exécuter le script d'installation
+.\install.ps1
+
+# Ou avec des options spécifiques
+.\install.ps1 -Verbose                    # Affichage détaillé
+.\install.ps1 -SkipNodeInstall           # Ignorer l'installation de Node.js
+.\install.ps1 -BuildOnly                 # Build uniquement
+```
+
+Le script d'installation se charge automatiquement de :
+- ✅ Vérifier et installer Node.js si nécessaire
+- ✅ Installer les dépendances npm
+- ✅ Vérifier les outils de build Windows
+- ✅ Builder l'application pour Windows
+- ✅ Générer tous les packages (NSIS, portable, ZIP)
+
+## Installation manuelle
+
+### Prérequis
 
 Installez Node.js et npm :
 ```powershell
@@ -18,6 +41,15 @@ Vérifiez l'installation :
 ```powershell
 node --version
 npm --version
+```
+
+### Outils de build Windows (optionnel)
+Pour compiler les modules natifs :
+```powershell
+# Installer Visual Studio Build Tools
+# Télécharger depuis: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+# Ou installer Visual Studio Community avec les outils C++
 ```
 
 ## Build du site web
@@ -118,8 +150,8 @@ npm run dist
 ### Erreur de permissions Node.js
 ```powershell
 # Configurer npm pour éviter les erreurs de permissions
-npm config set prefix "%APPDATA%\npm"
-# Ajouter %APPDATA%\npm à votre PATH
+npm config set prefix "$env:APPDATA\npm"
+# Ajouter $env:APPDATA\npm à votre PATH
 ```
 
 ### Erreur de mémoire lors du build
@@ -148,6 +180,24 @@ npm run postinstall
 ```powershell
 # Ajouter une exception pour le dossier du projet
 Add-MpPreference -ExclusionPath "C:\chemin\vers\nightmod"
+```
+
+### Erreurs de compilation native
+```powershell
+# Installer les outils de build Windows
+npm install -g windows-build-tools
+
+# Ou installer manuellement Visual Studio Build Tools
+# https://visualstudio.microsoft.com/visual-cpp-build-tools/
+```
+
+### Script PowerShell bloqué
+```powershell
+# Changer la politique d'exécution (temporairement)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Débloquer le script si nécessaire
+Unblock-File .\install.ps1
 ```
 
 ## Structure du projet après build
@@ -202,4 +252,47 @@ $env:ELECTRON_BUILDER_CACHE = "C:\temp\electron-builder-cache"
 Set-MpPreference -DisableRealtimeMonitoring $true
 # Réactiver après le build
 Set-MpPreference -DisableRealtimeMonitoring $false
+```
+
+## Automatisation avec PowerShell
+
+### Script de build automatisé
+```powershell
+# Créer un script de build personnalisé
+function Build-NightMod {
+    param(
+        [switch]$Clean,
+        [switch]$Verbose
+    )
+    
+    if ($Clean) {
+        Remove-Item -Path "node_modules", "dist" -Recurse -Force -ErrorAction SilentlyContinue
+    }
+    
+    npm install
+    npm run build-win
+    
+    if ($Verbose) {
+        Get-ChildItem "dist" -File | ForEach-Object {
+            Write-Host "$($_.Name) - $([math]::Round($_.Length / 1MB, 2)) MB"
+        }
+    }
+}
+```
+
+### Déploiement automatisé
+```powershell
+# Script pour déployer automatiquement
+function Deploy-NightMod {
+    param(
+        [string]$TargetPath = "C:\Deploy\NightMod"
+    )
+    
+    if (-not (Test-Path $TargetPath)) {
+        New-Item -Path $TargetPath -ItemType Directory -Force
+    }
+    
+    Copy-Item -Path "dist\*" -Destination $TargetPath -Recurse -Force
+    Write-Host "Déployé vers: $TargetPath"
+}
 ```
