@@ -10,12 +10,9 @@ Ce document recense des idées d'améliorations potentielles pour le projet **Ni
 
 ## Idées de futures fonctionnalités
 
-- **Compatibilité multiplateforme** : actuellement, le build cible seulement Windows. Étendre la prise en charge à macOS et Linux faciliterait l'adoption.
 - **Mises à jour automatiques** : intégrer `electron-updater` pour proposer des mises à jour sans intervention manuelle.
 - **Détection d'inactivité** : en plus des vérifications périodiques, analyser l'inactivité de l'utilisateur (souris, clavier) pour déclencher l'action plus intelligemment.
-- **Personnalisation avancée** : permettre à l'utilisateur de définir des scripts personnalisés à exécuter avant l'arrêt ou la mise en veille.
 - **Internationalisation** : proposer l'interface en plusieurs langues pour toucher un public plus large.
-- **Tests automatisés** : mettre en place des tests unitaires et un linter dans une intégration continue afin de garantir la stabilité du code.
+
 
 Ces pistes pourront servir de base pour planifier les prochaines versions de NightMod.
-
