@@ -1,6 +1,6 @@
 {
   "name": "nightmod",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Application de bureau qui surveille votre activité et éteint automatiquement votre ordinateur Windows",
   "main": "src/main.js",
   "type": "module",
@@ -40,15 +40,24 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64", "ia32"]
+          "arch": [
+            "x64",
+            "ia32"
+          ]
         },
         {
           "target": "portable",
-          "arch": ["x64", "ia32"]
+          "arch": [
+            "x64",
+            "ia32"
+          ]
         },
         {
           "target": "zip",
-          "arch": ["x64", "ia32"]
+          "arch": [
+            "x64",
+            "ia32"
+          ]
         }
       ],
       "icon": "assets/icons/256x256.png",
@@ -92,7 +101,14 @@
     "electron": "^28.0.0",
     "electron-builder": "^24.9.1"
   },
-  "keywords": ["desktop", "utility", "power-management", "sleep", "shutdown", "windows"],
+  "keywords": [
+    "desktop",
+    "utility",
+    "power-management",
+    "sleep",
+    "shutdown",
+    "windows"
+  ],
   "author": {
     "name": "NightMod Team",
     "email": "support@nightmod.app"
