@@ -64,7 +64,7 @@
           ]
         }
       ],
-      "icon": "assets/icon.png",
+      "icon": "assets/icon.ico",
       "requestedExecutionLevel": "asInvoker",
       "publisherName": "NightMod Team"
     },
@@ -75,8 +75,8 @@
       "createStartMenuShortcut": true,
       "shortcutName": "NightMod",
       "runAfterFinish": true,
-      "installerIcon": "assets/icon.png",
-      "uninstallerIcon": "assets/icon.png"
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico"
     },
     "portable": {
       "artifactName": "NightMod-${version}-portable.exe"
