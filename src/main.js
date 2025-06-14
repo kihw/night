@@ -260,13 +260,16 @@ function executeAction() {
   
   switch (config.action) {
     case 'shutdown':
-      command = 'shutdown -h now';
+      command = 'shutdown /s /t 0';
       break;
     case 'suspend':
-      command = 'systemctl suspend';
+      command = 'rundll32.exe powrprof.dll,SetSuspendState 0,1,0';
       break;
     case 'lock':
-      command = 'loginctl lock-session';
+      command = 'rundll32.exe user32.dll,LockWorkStation';
+      break;
+    case 'hibernate':
+      command = 'shutdown /h';
       break;
   }
 
@@ -386,8 +389,11 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  // Ne pas quitter sur Linux quand toutes les fenêtres sont fermées
-  // L'app continue à tourner dans le tray
+  // Sur Windows, quitter l'application quand toutes les fenêtres sont fermées
+  // sauf si l'option minimiser dans la barre des tâches est activée
+  if (!config.minimizeToTray) {
+    app.quit();
+  }
 });
 
 app.on('before-quit', () => {

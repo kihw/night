@@ -1,15 +1,14 @@
 {
   "name": "nightmod",
   "version": "1.0.0",
-
-  "description": "Application de bureau qui surveille votre activité et éteint automatiquement votre ordinateur",
+  "description": "Application de bureau qui surveille votre activité et éteint automatiquement votre ordinateur Windows",
   "main": "src/main.js",
   "type": "module",
   "scripts": {
     "start": "electron src/main.js",
     "dev": "electron src/main.js --dev",
     "build": "electron-builder",
-    "build-linux": "electron-builder --linux",
+    "build-win": "electron-builder --win",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --publish=never",
     "postinstall": "electron-builder install-app-deps",
@@ -29,8 +28,6 @@
       "node_modules/**/*",
       "assets/**/*"
     ],
-
-
     "extraResources": [
       "LICENSE.*",
       "locales/**/*",
@@ -39,37 +36,40 @@
       "*.bin",
       "*.json"
     ],
-
-    "linux": {
+    "win": {
       "target": [
         {
-          "target": "AppImage",
-          "arch": ["x64"]
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
         },
         {
-          "target": "deb",
-          "arch": ["x64"]
+          "target": "portable",
+          "arch": ["x64", "ia32"]
         },
         {
-          "target": "rpm",
-          "arch": ["x64"]
+          "target": "zip",
+          "arch": ["x64", "ia32"]
         }
       ],
-      "category": "Utility",
-      "icon": "assets/icons",
-      "desktop": {
-        "Name": "NightMod",
-        "Comment": "Protection nocturne intelligente",
-        "Categories": "Utility;System;"
-      }
+      "icon": "assets/icons/256x256.png",
+      "requestedExecutionLevel": "asInvoker",
+      "publisherName": "NightMod Team"
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "NightMod",
+      "runAfterFinish": true,
+      "installerIcon": "assets/icons/256x256.png",
+      "uninstallerIcon": "assets/icons/256x256.png"
+    },
+    "portable": {
+      "artifactName": "NightMod-${version}-portable.exe"
     }
   },
   "dependencies": {
-
     "node-notifier": "^10.0.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -92,7 +92,7 @@
     "electron": "^28.0.0",
     "electron-builder": "^24.9.1"
   },
-  "keywords": ["desktop", "utility", "power-management", "sleep", "shutdown"],
+  "keywords": ["desktop", "utility", "power-management", "sleep", "shutdown", "windows"],
   "author": {
     "name": "NightMod Team",
     "email": "support@nightmod.app"
