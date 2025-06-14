@@ -159,12 +159,13 @@ function Install-NodeJS {
 
 # Fonction principale
 function Main {
-    Write-ColorOutput @"
+    $welcomeMessage = @"
 🌙 ================================
    Installation de NightMod
    Protection nocturne pour Windows
 ================================
-"@ "Magenta"
+"@
+    Write-ColorOutput $welcomeMessage "Magenta"
 
     try {
         # Vérifier les permissions
@@ -300,7 +301,7 @@ function Main {
         }
 
         # Étape 6: Instructions finales
-        Write-ColorOutput @"
+        $finalMessage = @"
 
 🎉 ================================
    Installation terminée !
@@ -324,7 +325,8 @@ function Main {
 
 📚 Documentation complète dans BUILD.md et README.md
 
-"@ "Green"
+"@
+        Write-ColorOutput $finalMessage "Green"
 
         Write-Success "Installation de NightMod terminée avec succès !"
         
