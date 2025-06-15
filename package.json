@@ -1,6 +1,6 @@
 {
   "name": "nightmod",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Application de bureau qui surveille votre activité et éteint automatiquement votre ordinateur Windows",
   "main": "src/main.js",
   "type": "module",
