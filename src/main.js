@@ -1,9 +1,10 @@
 import { app, BrowserWindow, Tray, Menu, ipcMain, dialog, shell } from 'electron';
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import notifier from 'node-notifier';
 import fs from 'fs';
+import { bringWindowToFront } from './services/DummyWindowActivator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,7 +46,7 @@ function createMainWindow() {
 
   mainWindow.once('ready-to-show', () => {
     if (!config.minimizeToTray) {
-      mainWindow.show();
+      spawn('python', ['afficher_fenetre.py'], { detached: true });
     }
   });
 
@@ -118,8 +119,8 @@ function createTray() {
         label: 'Ouvrir interface',
         click: () => {
           if (mainWindow) {
-            mainWindow.show();
-            mainWindow.focus();
+            spawn('python', ['afficher_fenetre.py'], { detached: true });
+            bringWindowToFront();
           }
         }
       },
@@ -137,8 +138,8 @@ function createTray() {
 
     tray.on('double-click', () => {
       if (mainWindow) {
-        mainWindow.show();
-        mainWindow.focus();
+        spawn('python', ['afficher_fenetre.py'], { detached: true });
+        bringWindowToFront();
       }
     });
   } catch (error) {
@@ -312,14 +313,14 @@ function updateTrayMenu() {
       }
     },
     {
-      label: 'Ouvrir interface',
-      click: () => {
-        if (mainWindow) {
-          mainWindow.show();
-          mainWindow.focus();
-        }
+    label: 'Ouvrir interface',
+    click: () => {
+      if (mainWindow) {
+        spawn('python', ['afficher_fenetre.py'], { detached: true });
+        bringWindowToFront();
       }
-    },
+    }
+  },
     { type: 'separator' },
     {
       label: 'Quitter',
@@ -390,7 +391,7 @@ app.whenReady().then(() => {
 
   // Afficher la fenêtre principale au démarrage pour les tests
   if (mainWindow) {
-    mainWindow.show();
+    spawn('python', ['afficher_fenetre.py'], { detached: true });
   }
 
   app.on('activate', () => {
@@ -421,7 +422,7 @@ if (!gotTheLock) {
   app.on('second-instance', () => {
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
+      bringWindowToFront();
     }
   });
 }
